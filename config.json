@@ -1,0 +1,3 @@
+{
+	"db" : "mongodb://wiki:wiki@139.159.140.16:27017/wikidb"
+}
