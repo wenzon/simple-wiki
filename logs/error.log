@@ -1,3 +1,3 @@
-(node:500) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
-(node:500) DeprecationWarning: collection.count is deprecated, and will be removed in a future version. Use collection.countDocuments or collection.estimatedDocumentCount instead
-(node:500) DeprecationWarning: Cursor.each is deprecated. Use Cursor.forEach instead.
+(node:16157) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+(node:16157) DeprecationWarning: collection.count is deprecated, and will be removed in a future version. Use collection.countDocuments or collection.estimatedDocumentCount instead
+(node:16157) DeprecationWarning: Cursor.each is deprecated. Use Cursor.forEach instead.

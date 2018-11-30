@@ -18,7 +18,7 @@ module.exports = {
       return pm2.connectAsync().then(() => {
         return pm2.startAsync({
           name: 'server',
-          script: 'server',
+          script: './libs/server',
           cwd: ROOTPATH,
           output: path.join(ROOTPATH, './logs/output.log'),
           error: path.join(ROOTPATH, './logs/error.log'),
