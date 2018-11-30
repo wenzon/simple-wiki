@@ -1,6 +1,10 @@
 {
 	"page" : 20,
 
+	"port": 10086,
+	
+	"host": "127.0.0.1",
+
 	"username": "xiaoyangmao",
 
 	"password": "xiao1234",
