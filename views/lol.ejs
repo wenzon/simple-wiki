@@ -7,11 +7,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<link rel="stylesheet" type="text/css" href="../assets/css/iconfont/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="../assets/css/H-ui/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="../assets/css/H-ui/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="../assets/css/H-ui/skin/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="../assets/css/H-ui/style.css" />
+<link rel="stylesheet" type="text/css" href="../css/iconfont/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="../css/H-ui/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="../css/H-ui/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="../css/H-ui/skin/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="../css/H-ui/style.css" />
 
 <title>我的桌面</title>
 </head>
@@ -22,70 +22,38 @@
 	<table class="table table-border table-bordered table-bg">
 		<thead>
 			<tr>
-				<th colspan="7" scope="col">信息统计</th>
+				<th colspan="7" scope="col" style="text-align:center">信息统计</th>
 			</tr>
 			<tr class="text-c">
-				<th>统计</th>
-				<th>资讯库</th>
-				<th>图片库</th>
-				<th>产品库</th>
-				<th>用户</th>
-				<th>管理员</th>
+				<th>文章分类</th>
+				<th>标题</th>
+				<th>回复和浏览量</th>
+				<th>发表时间</th>
+				<th>采集时间</th>
+				<th>来源网站</th>
+				<th>全文链接</th>				
 			</tr>
 		</thead>
 		<tbody>
-			<tr class="text-c">
-				<td>总数</td>
-				<td>92</td>
-				<td>9</td>
-				<td>0</td>
-				<td>8</td>
-				<td>20</td>
-			</tr>
-			<tr class="text-c">
-				<td>今日</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-			</tr>
-			<tr class="text-c">
-				<td>昨日</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-			</tr>
-			<tr class="text-c">
-				<td>本周</td>
-				<td>2</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-			</tr>
-			<tr class="text-c">
-				<td>本月</td>
-				<td>2</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-			</tr>
-			<% items.forEach(function(item){%>
-                        <tr class="text-c">
-                                <td><%=item.title%></td>
-                                <td><%=item.info1%></td>
-                                <td><%=item.info2%></td>
-                                <td><%=item.info3%></td>
-                                <td><%=item.info4%></td>
-                                <td><%=item.info5%></td>
-                        </tr>
+			<% datas.forEach(function(data){%>
+                <tr class="text-c">
+                    <td><%=data.leftTag%></td>
+                    <td style="text-align:left"><%=data.title%></td>
+                    <td><%=data.backAndSee%></td>
+                    <td><%=data.dateTime%></td>
+                    <td><%=data.updateTime%></td>
+                    <td><%=data.comefrom%></td>
+                    <td><a target="_parent" href='<%=data.articeUrl%>'><%=data.articeUrl%></a></td>								
+                </tr>
 			<% }) %>
 		</tbody>
 	</table>
+	
+	<div style="text-align:center;padding-top:10px;">
+		<%if(page>0){%><a href="/page/wzry?page=<%=page-1%>">上一页</a><%}else{%><span>上一页</span><%}%>
+		<span>  |  </span>
+		<%if(page<maxp-1){%><a href="/page/wzry?page=<%=page+1%>">下一页</a><%}else{%><span>下一页</span><%}%>
+	</div>
 </div>
 <footer class="footer mt-20">
   <div class="container">
@@ -95,8 +63,8 @@
     </p>
   </div>
 </footer>
-<script type="text/javascript" src="../assets/js/jquery.min.js"></script> 
-<script type="text/javascript" src="../assets/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="../js/jquery.min.js"></script> 
+<script type="text/javascript" src="../js/H-ui.min.js"></script> 
 
 </body>
 </html>

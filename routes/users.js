@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+const passport = require('passport')
+const express = require('express');
+const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/account/signup',
+    passport.authenticate('signup', {
+        successRedirect:'/edit',
+        failureRedirect:'/login'
+	})
+);
+
+router.post('/account/signout', function(req, res){
+  req.logout();
+  res.redirect('/login');
 });
 
 module.exports = router;

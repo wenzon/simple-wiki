@@ -1,61 +1,81 @@
 'use strict'
 
-/* global ROOTPATH, appconfig, winston */
+var MongoClient = require('mongodb').MongoClient;
 
-const modb = require('mongoose')
-const fs = require('fs')
-const path = require('path')
-const _ = require('lodash')
-
-/**
- * MongoDB module
- *
- * @return     {Object}  MongoDB wrapper instance
- */
 module.exports = {
+  connectDb(callback) {
+	MongoClient.connect(config.db,  function(err, db){
+		if(err) {
+			console.log('数据库连接失败');
+			return;
+		}
+		callback(db);
+	})
+  },
+ 
+  find(dbname, collectionname, cond, callback) {
+    let self = this	  
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
+		
+		collection.find(cond).toArray(function(error, docs){
+			callback(error,  docs);
+			db.close();
+		});
+	});
+  },
 
-  /**
-   * Initialize DB
-   *
-   * @return     {Object}  DB instance
-   */
-  init() {
+  count(dbname, collectionname, cond, callback){
     let self = this
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
+		
+		collection.count(cond, function(error, n){
+			callback(error,  n);
+			db.close();			
+		});
+	});
+  },
+  
+  findOne(dbname, collectionname, cond, callback){
+    let self = this
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
+		
+		collection.findOne(cond, null, function(error,  doc){
+			callback(error, doc,  );
+			db.close();
+		});
+	});
+  },
 
-    let dbModelsPath = '../models'
+  where(dbname, collectionname, cond, skip, limit, callback) {
+    let self = this	  
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
 
-    modb.Promise = require('bluebird')
-
-    // Event handlers
-
-    modb.connection.on('error', err => {
-      //winston.error('Failed to connect to MongoDB instance.')
-      return err
-    })
-    modb.connection.once('open', function () {
-      console.log('Connected to MongoDB instance.')
-    })
-
-    // Store connection handle
-
-    self.connection = modb.connection
-    self.ObjectId = modb.Types.ObjectId
-
-    // Load DB Models
-
-    fs
-      .readdirSync(dbModelsPath)
-      .filter(function (file) {
-        return (file.indexOf('.') !== 0)
-      })
-      .forEach(function (file) {
-        let modelName = _.upperFirst(_.camelCase(_.split(file, '.')[0]))
-        self[modelName] = require(path.join(dbModelsPath, file))
-      })
-
-    // Connect
-    self.onReady = modb.connect(config.db, { useNewUrlParser: true })
-    return self
+		var results = [];
+		var cursor = collection.find(cond).skip(skip).limit(limit);
+        cursor.each(function(err, doc) {			
+            if (err == null && doc != null) {
+                results.push(doc);
+            } else {
+                callback(null, results); db.close();
+            }
+		});
+	});
+  },
+  
+  insertOne(dbname, collectionname, cond, callback){
+    let self = this	  
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
+		collection.insertOne(cond, callback)
+	})
   }
-
 }
