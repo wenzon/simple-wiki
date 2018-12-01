@@ -54,14 +54,14 @@ app.use(pages);
 app.use(function(req, res, next) {
 	res.render('error', {
 		message: "No such page!",
-		error:{status:404, stack:"null"}
+		status: 404
 	});
 });
 
 app.use(function(err, req, res, next) {
 	res.render('error', {
 		message: "No such page!",
-		error:{status:404, stack:"null"}
+		status: 404
 	});
 });
 //**********************异常处理开始**********************//
