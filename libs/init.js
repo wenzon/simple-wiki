@@ -17,7 +17,7 @@ module.exports = {
     return fs.emptyDirAsync(path.join(ROOTPATH, './logs')).then(() => {
       return pm2.connectAsync().then(() => {
         return pm2.startAsync({
-          name: 'server',
+          name: 'wiki',
           script: './libs/server',
           cwd: ROOTPATH,
           output: path.join(ROOTPATH, './logs/output.log'),
@@ -42,7 +42,7 @@ module.exports = {
   stop () {
     let spinner = ora('Shutting down server.js...').start()
     return pm2.connectAsync().then(() => {
-      return pm2.stopAsync('server').then(() => {
+      return pm2.stopAsync('wiki').then(() => {
         spinner.succeed('server.js has stopped successfully.')
       }).finally(() => {
         pm2.disconnect()

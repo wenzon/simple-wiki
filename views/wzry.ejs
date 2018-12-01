@@ -30,36 +30,34 @@
 				<th>回复和浏览量</th>
 				<th>发表时间</th>
 				<th>采集时间</th>
-				<th>来源网站</th>
-				<th>全文链接</th>				
+				<th>全文链接</th>	
 			</tr>
 		</thead>
 		<tbody>
 			<% datas.forEach(function(data){%>
-                        <tr class="text-c">
-                                <td><%=data.leftTag%></td>
-                                <td style="text-align:left"><%=data.title%></td>
-                                <td><%=data.backAndSee%></td>
-                                <td><%=data.dateTime%></td>
-                                <td><%=data.updateTime%></td>
-                                <td><%=data.comefrom%></td>
-                                <td><a target="_parent" href='<%=data.articeUrl%>'><%=data.articeUrl%></a></td>								
-                        </tr>
+                <tr class="text-c">
+                    <td><%=data.leftTag%></td>
+                    <td style="text-align:left"><%=data.title%></td>
+                    <td><%=data.backAndSee%></td>
+                    <td><%=data.dateTime%></td>
+                    <td><%=new Date((data.uploadTime) * 1000).toLocaleString().replace(new RegExp('/','g'),"-")%></td>
+                    <td><a target="_parent" href='<%=data.articeUrl%>'><%=data.articeUrl%></a></td>								
+                </tr>
 			<% }) %>
 		</tbody>
 	</table>
 		
 	<div style="text-align:center;padding-top:10px;">
-		<%if(page>0){%><a href="/page/lol?page=<%=page-1%>">上一页</a><%}else{%><span>上一页</span><%}%>
+		<%if(page>0){%><a href="/page/lol?page=<%=page-1%>&from=<%=from%>">上一页</a><%}else{%><span>上一页</span><%}%>
 		<span>  |  </span>
-		<%if(page<maxp-1){%><a href="/page/lol?page=<%=page+1%>">下一页</a><%}else{%><span>下一页</span><%}%>
+		<%if(page<maxp-1){%><a href="/page/lol?page=<%=page+1%>&from=<%=from%>">下一页</a><%}else{%><span>下一页</span><%}%>
 	</div>
 </div>
 <footer class="footer mt-20">
   <div class="container">
-    <p>更多资讯请关注微博：我是雷锋<br>
-	Copyright &copy;2018-2019. All Rights Reserved.<br>
-	本系统由<a href="" target="_blank" title="H-ui前端框架"> 我是雷锋团队 </a>提供技术支持
+    <p>本系统由<a href="" target="_blank" title="H-ui前端框架"> H-ui </a>提供技术支持<br>
+	更多资讯请关注微博：游戏资讯整合平台<br>
+	Copyright &copy;2018-2019. All Rights Reserved.
     </p>
   </div>
 </footer>

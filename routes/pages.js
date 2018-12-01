@@ -57,14 +57,21 @@ router.get("/page/view", function(req, res, next){
 });
 
 router.get("/page/lol", function(req, res, next) {
-	const COND_LOL = { infoType: 1};
-	let cur_p = req.query.page == undefined ? 0 : parseInt(req.query.page);
+	let cur = req.query.page == undefined ? 0 : parseInt(req.query.page);
+	let from = req.query.from == undefined ? 1 : parseInt(req.query.from);
 
-	var callback_con = function(error, docs, cur, max){
+	const COND_LOL = {
+		fc: {infoType: 1, comefrom: from},
+		sc: {"uploadTime": -1},
+		limit: config.pageSize,
+		skip: (cur * config.pageSize),	
+	};
+	
+	var callback_con = function(error, docs, max){
 		if(error != null || docs.lenght == 0){
 			res.render('error');
 		} else {
-			res.render("lol", {datas: docs, page: cur, maxp: max});
+			res.render("lol", {datas: docs, page: cur, maxp: max, from: from});
 		}
 	};
 
@@ -72,10 +79,9 @@ router.get("/page/lol", function(req, res, next) {
 		if(error != null) {
 			res.render('error');
 		} else {
-			let skip = cur_p * config.page;
-			let maxp = Math.ceil((max*1.0)/config.page);
-			dbUtil.where("wikidb", "HupuData", COND_LOL, skip, config.page,
-				function(error, docs){ callback_con(error, docs, cur_p, maxp); }
+			let maxp = Math.ceil((max*1.0)/COND_LOL.limit);
+			dbUtil.where("wikidb", "HupuData", COND_LOL,
+				function(error, docs){ callback_con(error, docs, maxp); }
 			);
 		}
 	};
@@ -83,14 +89,21 @@ router.get("/page/lol", function(req, res, next) {
 });
 
 router.get("/page/wzry", function(req, res, next) {
-	const COND_WZRY = { infoType: 2};
-	let cur_p = req.query.page == undefined ? 0 : parseInt(req.query.page);
-
-	var callback_con = function(error, docs, cur, max){
+	let cur = req.query.page == undefined ? 0 : parseInt(req.query.page);
+	let from = req.query.from == undefined ? 1 : parseInt(req.query.from);
+	
+	const COND_WZRY = {
+		fc: {infoType: 2, comefrom:from},
+		sc: {"uploadTime": -1},
+		limit: config.pageSize,
+		skip: (cur * config.pageSize),	
+	};
+	
+	var callback_con = function(error, docs, max){
 		if(error != null || docs.lenght == 0){
 			res.render('error');
 		} else {
-			res.render("lol", {datas: docs, page: cur, maxp: max});
+			res.render("wzry", {datas: docs, page: cur, maxp: max, from: from});
 		}
 	};
 
@@ -98,10 +111,9 @@ router.get("/page/wzry", function(req, res, next) {
 		if(error != null) {
 			res.render('error');
 		} else {
-			let skip = cur_p * config.page;
-			let maxp = Math.ceil((max*1.0)/config.page);
-			dbUtil.where("wikidb", "HupuData", COND_WZRY, skip, config.page,
-				function(error, docs){ callback_con(error, docs, cur_p, maxp); }
+			let maxp = Math.ceil((max*1.0)/COND_WZRY.limit);
+			dbUtil.where("wikidb", "HupuData", COND_WZRY,
+				function(error, docs){ callback_con(error, docs, maxp); }
 			);
 		}
 	};

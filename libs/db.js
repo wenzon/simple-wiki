@@ -13,27 +13,14 @@ module.exports = {
 	})
   },
  
-  find(dbname, collectionname, cond, callback) {
-    let self = this	  
-	self.connectDb(function(db) {
-		const DB = db.db(dbname);
-		const collection = DB.collection(collectionname);
-		
-		collection.find(cond).toArray(function(error, docs){
-			callback(error,  docs);
-			db.close();
-		});
-	});
-  },
-
   count(dbname, collectionname, cond, callback){
     let self = this
 	self.connectDb(function(db) {
 		const DB = db.db(dbname);
 		const collection = DB.collection(collectionname);
 		
-		collection.count(cond, function(error, n){
-			callback(error,  n);
+		collection.count(cond.fc, function(error, n){
+			callback(error, n);
 			db.close();			
 		});
 	});
@@ -45,21 +32,34 @@ module.exports = {
 		const DB = db.db(dbname);
 		const collection = DB.collection(collectionname);
 		
-		collection.findOne(cond, null, function(error,  doc){
-			callback(error, doc,  );
+		collection.findOne(cond.fc, null, function(error,  doc){
+			callback(error, doc);
+			db.close();
+		});
+	});
+  },
+  
+  find(dbname, collectionname, cond, callback) {
+    let self = this	  
+	self.connectDb(function(db) {
+		const DB = db.db(dbname);
+		const collection = DB.collection(collectionname);
+		
+		collection.find(cond.fc).toArray(function(error, docs){
+			callback(error, docs);
 			db.close();
 		});
 	});
   },
 
-  where(dbname, collectionname, cond, skip, limit, callback) {
+  where(dbname, collectionname, cond, callback) {
     let self = this	  
 	self.connectDb(function(db) {
 		const DB = db.db(dbname);
 		const collection = DB.collection(collectionname);
 
 		var results = [];
-		var cursor = collection.find(cond).skip(skip).limit(limit);
+		var cursor = collection.find(cond.fc).sort(cond.sc).skip(cond.skip).limit(cond.limit);
         cursor.each(function(err, doc) {			
             if (err == null && doc != null) {
                 results.push(doc);
